@@ -1,7 +1,7 @@
-import { CLIENT_ROUTER } from "./router";
+import { Admin, Client } from "./layout";
 
 function App() {
-  return <CLIENT_ROUTER />;
+  return <Client />;
 }
 
 export default App;
