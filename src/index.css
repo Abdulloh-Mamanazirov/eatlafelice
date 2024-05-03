@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
+
+@layer base {
+  @font-face {
+    font-family: "Patua";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(./assets/fonts/Patua_One/PatuaOne-Regular.ttf);
+  }
+}
+
