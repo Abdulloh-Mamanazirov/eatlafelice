@@ -4,9 +4,13 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        pacifico: "Pacifico, cursive",
-        lobster: "Lobster, sans-serif",
-        varela: "Varela Round, sans-serif",
+        patua: "Patua, sans-serif",
+      },
+      colors: {
+        primary: "#fcba2f",
+      },
+      screens: {
+        "md-lg": "900px",
       },
     },
   },
