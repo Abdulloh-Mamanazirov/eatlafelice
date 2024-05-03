@@ -27,7 +27,7 @@ const index = () => {
           <Link to={"/"}>
             <img
               src="https://max-themes.net//demos/albertos/images/logo.png"
-              alt="logo"
+              alt="company logo"
             />
           </Link>
         </div>
