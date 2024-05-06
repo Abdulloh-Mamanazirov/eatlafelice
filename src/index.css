@@ -32,3 +32,17 @@
     transform: scale(1.2);
   }
 }
+
+.bg-carousel-title {
+  background: linear-gradient(
+    90deg,
+    #009133ee 33%,
+    #e0e0e0ee 33% 66%,
+    #e00016e5 66%
+  );
+  text-shadow: 2px 2px 3px black;
+  padding: 7px 17px;
+  border-radius: 8px 8px 0 0;
+  /* background-clip: text;
+  color: transparent; */
+}
