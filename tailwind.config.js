@@ -7,7 +7,8 @@ export default {
         patua: "Patua, sans-serif",
       },
       colors: {
-        primary: "#fcba2f",
+        primary: "#009132",
+        secondary: "#e00018",
       },
       screens: {
         "md-lg": "900px",
