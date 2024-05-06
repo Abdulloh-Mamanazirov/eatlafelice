@@ -1,4 +1,4 @@
-import { Home } from "../pages";
+import { About, Home } from "../pages";
 
 export const CLIENT_PAGES = [
   {
@@ -6,6 +6,13 @@ export const CLIENT_PAGES = [
     path: "/",
     title: "Home",
     element: <Home />,
+    show: true,
+  },
+  {
+    id: 1,
+    path: "/about-us",
+    title: "About Us",
+    element: <About />,
     show: true,
   },
 ];
