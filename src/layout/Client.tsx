@@ -8,9 +8,9 @@ const CLIENT_ROUTER = () => {
       <div className="md-lg:col-span-1">
         <Sidebar />
       </div>
-      <div className="bg-green-200 md-lg:col-span-5">
+      <div className="md-lg:col-span-5 max-h-screen overflow-y-auto">
         <Routes>
-          {CLIENT_PAGES.map((page) => (
+          {CLIENT_PAGES.filter((page) => page.show).map((page) => (
             <Route key={page.id} path={page.path} element={page.element} />
           ))}
         </Routes>
