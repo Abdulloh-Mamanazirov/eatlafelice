@@ -1,8 +1,9 @@
+import { Carousel } from "./components";
 
 const index = () => {
   return (
     <div>
-      Home page
+      <Carousel />
     </div>
   );
 };
