@@ -30,7 +30,7 @@ const index = () => {
           </Link>
         </div>
 
-        <ul className="hidden md-lg:block font-patua text-white mt-20 text-2xl">
+        <ul className="hidden md-lg:block font-patua text-white mt-20 text-2xl text-center">
           {CLIENT_PAGES.map((item) => (
             <LinkComponent key={item.id} item={item} />
           ))}
