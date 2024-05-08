@@ -75,7 +75,7 @@ export default function App() {
         }}
         className="mySwiper2"
       >
-        {images.map((image, ind) => (
+        {images?.map?.((image, ind) => (
           <SwiperSlide key={ind} className="overflow-hidden">
             <img src={image} alt="pizza image" className="zoom-animation" />
           </SwiperSlide>
@@ -113,7 +113,7 @@ export default function App() {
           backgroundRepeat: "repeat",
         }}
       >
-        {images.map((image, ind) => (
+        {images?.map?.((image, ind) => (
           <SwiperSlide key={ind}>
             <img src={image} alt="pizza slider image" />
           </SwiperSlide>
