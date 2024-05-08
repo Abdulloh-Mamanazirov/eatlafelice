@@ -57,3 +57,29 @@
   /* background-clip: text;
   color: transparent; */
 }
+
+.rotate-animation {
+  animation: rotation 15000ms linear infinite forwards;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.swing-animation {
+  animation: swing 2000ms linear infinite both alternate;
+}
+
+@keyframes swing {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(10deg);
+  }
+}
