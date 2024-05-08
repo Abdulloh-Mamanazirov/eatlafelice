@@ -60,10 +60,6 @@ export default function App() {
         </div>
       </div>
       <Swiper
-        style={{
-          "--swiper-navigation-color": "#fff",
-          "--swiper-pagination-color": "#fff",
-        }}
         loop={true}
         // spaceBetween={10}
         thumbs={{ swiper: thumbsSwiper }}
