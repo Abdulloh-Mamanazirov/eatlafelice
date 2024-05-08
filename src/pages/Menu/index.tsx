@@ -131,13 +131,13 @@ const index = (): React.JSX.Element => {
           Meet our Menu <span className="fa-solid fa-utensils" />
         </h3>
       </div>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 p-3">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 p-3">
         {mockData.map((item) => (
           <MenuCard1 key={item.id} item={item} />
         ))}
       </div>
       <br />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 p-3">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 p-3">
         {mockData.map((item) => (
           <MenuCard2 key={item.id} item={item} />
         ))}
