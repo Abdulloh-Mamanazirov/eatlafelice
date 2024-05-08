@@ -73,7 +73,13 @@ export default function App() {
       >
         {images?.map?.((image, ind) => (
           <SwiperSlide key={ind} className="overflow-hidden">
-            <img src={image} alt="pizza image" className="zoom-animation" />
+            <img
+              src={image}
+              alt="pizza image"
+              className="zoom-animation"
+              loading="lazy"
+            />
+            <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
           </SwiperSlide>
         ))}
       </Swiper>
@@ -111,7 +117,8 @@ export default function App() {
       >
         {images?.map?.((image, ind) => (
           <SwiperSlide key={ind}>
-            <img src={image} alt="pizza slider image" />
+            <img src={image} alt="pizza slider image" loading="lazy" />
+            <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
           </SwiperSlide>
         ))}
       </Swiper>
