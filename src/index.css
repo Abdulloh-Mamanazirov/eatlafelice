@@ -14,10 +14,21 @@
 
 .sidebar-bg {
   background: url("./assets/images/bg-menu.webp");
+  background-repeat: no-repeat;
+}
+@media (max-width: 900px) {
+  .sidebar-bg {
+    background-size: cover;
+    background-position: bottom right;
+  }
 }
 
 .about-bg {
   background: url("./assets/images/bg-about.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: bottom;
+  background-position-x: center;
 }
 
 .zoom-animation {
