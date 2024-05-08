@@ -42,19 +42,19 @@ export default function App() {
       <div className="z-50 absolute inset-0 bottom-28 grid place-items-center">
         <div className="text-center">
           <div>
-            <p className="text-white text-6xl font-serif font-bold italic bg-carousel-title">
+            <p className="text-white text-4xl sm:text-6xl font-serif font-bold italic bg-carousel-title">
               We have the Best
             </p>
           </div>
-          <div className="flex items-center justify-between">
-            <div className="w-fit bg-primary/80 px-4 py-2 rounded-lg rounded-t-none backdrop-blur-md">
-              <p className="font-patua text-6xl text-white">P i z z a</p>
+          <div className="flex items-center justify-between text-4xl sm:text-6xl">
+            <div className="w-fit bg-[#009133ee] px-4 py-2 rounded-lg rounded-t-none backdrop-blur-md">
+              <p className="font-patua text-white tracking-widest">Pizza</p>
             </div>
             <div className="w-fit bg-white/80 px-5 py-2 rounded-lg rounded-t-none backdrop-blur-md">
-              <p className="font-patua text-6xl">&</p>
+              <p className="font-patua">&</p>
             </div>
-            <div className="w-fit bg-secondary/80 px-4 py-2 rounded-lg rounded-t-none backdrop-blur-md">
-              <p className="font-patua text-6xl text-white">P a s t a</p>
+            <div className="w-fit bg-[#e00016e5] px-4 py-2 rounded-lg rounded-t-none backdrop-blur-md">
+              <p className="font-patua text-white tracking-widest">Pasta</p>
             </div>
           </div>
         </div>
@@ -94,7 +94,24 @@ export default function App() {
           delay: 3500,
           disableOnInteraction: false,
         }}
-        className="mySwiper sidebar-bg bg-no-repeat bg-contain"
+        breakpoints={{
+          0: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          700: {
+            slidesPerView: 4,
+            spaceBetween: 40,
+          },
+          900: {
+            slidesPerView: 8,
+            spaceBetween: 0,
+          },
+        }}
+        className="mySwiper sidebar-bg"
+        style={{
+          backgroundRepeat: "repeat",
+        }}
       >
         {images.map((image, ind) => (
           <SwiperSlide key={ind}>
