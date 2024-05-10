@@ -13,7 +13,7 @@ const CLIENT_ROUTER = () => {
       </div>
       <div className="md-lg:col-span-5 md-lg:max-h-screen overflow-y-auto overflow-x-hidden">
         <Routes>
-          {CLIENT_PAGES.filter((page) => page.show).map((page) => (
+          {CLIENT_PAGES.map((page) => (
             <Route key={page.id} path={page.path} element={page.element} />
           ))}
         </Routes>
