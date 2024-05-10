@@ -1,4 +1,13 @@
-import { About, Contact, Home, Menu } from "../pages";
+import {
+  About,
+  AdminHome,
+  AdminLogin,
+  Contact,
+  Home,
+  Menu,
+  NotFound,
+} from "../pages";
+// const token = sessionStorage.getItem("laFeliceAuthenticationToken");
 
 export const CLIENT_PAGES = [
   {
@@ -40,14 +49,28 @@ export const CLIENT_PAGES = [
     element: <div />,
     show: true,
   },
+  {
+    id: 5,
+    path: "/*",
+    title:"Not Found",
+    element: <NotFound />,
+    show: false,
+  },
 ];
 
 export const ADMIN_PAGES = [
   {
     id: 100,
-    path: "/admin",
+    path: "/admin/login",
+    title: "Login",
+    element: <AdminLogin />,
+    show: false,
+  },
+  {
+    id: 101,
+    path: "/admin/home",
     title: "Home",
-    element: <Home />,
+    element: <AdminHome />,
     show: true,
   },
 ];
