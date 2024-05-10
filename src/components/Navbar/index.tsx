@@ -36,7 +36,7 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <ul className="hidden md:flex">
-        {CLIENT_PAGES.map((item) => (
+        {CLIENT_PAGES.filter((item) => item.show).map((item) => (
           <li
             key={item.id}
             className="p-4 whitespace-nowrap hover:bg-[#00df9a] rounded-xl m-2 cursor-pointer duration-300 hover:text-black"
@@ -69,7 +69,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation Items */}
-        {CLIENT_PAGES.map((item) => (
+        {CLIENT_PAGES.filter((item) => item.show).map((item) => (
           <LinkComponent key={item.id} item={item} />
         ))}
       </ul>

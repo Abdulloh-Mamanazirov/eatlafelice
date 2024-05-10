@@ -22,7 +22,7 @@ const index = () => {
         </div>
 
         <ul className="font-patua text-white mt-20 text-2xl text-center">
-          {CLIENT_PAGES.map((item) => (
+          {CLIENT_PAGES.filter((item) => item.show).map((item) => (
             <LinkComponent key={item.id} item={item} />
           ))}
         </ul>
