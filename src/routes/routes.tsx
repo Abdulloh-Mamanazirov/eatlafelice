@@ -73,4 +73,11 @@ export const ADMIN_PAGES = [
     element: <AdminHome />,
     show: true,
   },
+  {
+    id: 101,
+    path: "/admin/*",
+    title: "Home",
+    element: <AdminHome />,
+    show: false,
+  },
 ];
