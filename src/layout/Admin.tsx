@@ -1,6 +1,6 @@
 import { AdminLogin } from "../pages";
 import { useRef, useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import { LogoIcon } from "../assets";
 import { ADMIN_PAGES } from "../routes";
 
@@ -52,14 +52,16 @@ const ADMIN_ROUTER = () => {
             className="hidden lg:flex flex-row w-full flex-1"
           >
             <ul className="text-center flex lg:flex-row flex-col lg:gap-2 xl:gap-4 gap-2 items-center lg:ml-auto">
-              <li>
-                <a
-                  href="#"
-                  className="py-1.5 px-3 bg-transparent transition-all duration-500 ease-in-out text-xs text-gray-500 dark:text-white hover:bg-indigo-600 hover:text-white font-semibold rounded-md"
-                >
-                  Document
-                </a>
-              </li>
+              {ADMIN_PAGES.filter((item) => item.show).map((item) => (
+                <li>
+                  <Link
+                    to={item.path}
+                    className="py-1.5 px-3 bg-transparent transition-all duration-500 ease-in-out text-gray-500 dark:text-white hover:bg-indigo-600 hover:text-white font-semibold rounded-md"
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
