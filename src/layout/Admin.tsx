@@ -55,6 +55,7 @@ const ADMIN_ROUTER = () => {
               {ADMIN_PAGES.filter((item) => item.show).map((item) => (
                 <li>
                   <Link
+                    key={item.id}
                     to={item.path}
                     className="py-1.5 px-3 bg-transparent transition-all duration-500 ease-in-out text-gray-500 dark:text-white hover:bg-indigo-600 hover:text-white font-semibold rounded-md"
                   >
