@@ -53,9 +53,8 @@ const ADMIN_ROUTER = () => {
           >
             <ul className="text-center flex lg:flex-row flex-col lg:gap-2 xl:gap-4 gap-2 items-center lg:ml-auto">
               {ADMIN_PAGES.filter((item) => item.show).map((item) => (
-                <li>
+                <li key={item.id}>
                   <Link
-                    key={item.id}
                     to={item.path}
                     className="py-1.5 px-3 bg-transparent transition-all duration-500 ease-in-out text-gray-500 dark:text-white hover:bg-indigo-600 hover:text-white font-semibold rounded-md"
                   >
