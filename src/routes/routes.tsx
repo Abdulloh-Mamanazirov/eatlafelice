@@ -2,6 +2,7 @@ import {
   About,
   AdminHome,
   AdminLogin,
+  AdminMenu,
   Contact,
   Home,
   Menu,
@@ -52,7 +53,7 @@ export const CLIENT_PAGES = [
   {
     id: 5,
     path: "/*",
-    title:"Not Found",
+    title: "Not Found",
     element: <NotFound />,
     show: false,
   },
@@ -74,7 +75,14 @@ export const ADMIN_PAGES = [
     show: true,
   },
   {
-    id: 101,
+    id: 102,
+    path: "/admin/menu",
+    title: "Menu",
+    element: <AdminMenu />,
+    show: true,
+  },
+  {
+    id: 103,
     path: "/admin/*",
     title: "Home",
     element: <AdminHome />,
