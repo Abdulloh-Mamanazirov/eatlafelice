@@ -1,5 +1,7 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { LogoIcon } from "../../../assets";
 
 const index = () => {
@@ -15,19 +17,23 @@ const index = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const { username, password } = e.target;
+    const { email, password } = e.target;
     const data = {
-      username: username.value,
+      email: email.value,
       password: password.value,
     };
 
-    if (data) {
-      navigate("/admin/home");
-      sessionStorage.setItem(
-        "laFeliceAuthenticationToken",
-        JSON.stringify(data)
-      );
-    }
+    axios
+      .post("/auth/authenticate", data)
+      .then(() => {
+        toast.success("Log in successful");
+        navigate("/admin/home");
+        sessionStorage.setItem(
+          "laFeliceAuthenticationToken",
+          JSON.stringify(data)
+        );
+      })
+      .catch(() => toast.error("Log in failed!"));
   };
 
   return (
@@ -49,11 +55,11 @@ const index = () => {
               </h1>
             </div>
             <input
-              name="username"
-              type="text"
+              name="email"
+              type="email"
               required
               className="w-full h-12 text-gray-900 placeholder:text-gray-400 text-lg font-normal leading-7 rounded-full border-gray-300 border shadow-sm focus:outline-none px-4 mb-6"
-              placeholder="Username"
+              placeholder="Email"
             />
             <input
               name="password"
