@@ -153,7 +153,7 @@ const index = () => {
               <img
                 src={imagePreview}
                 alt="uploaded image"
-                className="max-w-full max-h-60 object-cover"
+                className="max-w-full max-h-72 object-cover"
               />
             )}
           </div>
