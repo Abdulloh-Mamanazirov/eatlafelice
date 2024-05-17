@@ -10,6 +10,7 @@ const ADMIN_ROUTER = () => {
   const token = sessionStorage.getItem("laFeliceAuthenticationToken");
 
   useEffect(() => {
+    mobileNav.current.classList.add("hidden");
     if (!token) navigate("/admin/login");
   }, [window.location.pathname]);
 
