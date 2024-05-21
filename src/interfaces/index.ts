@@ -1,4 +1,4 @@
 import type { ILinkItem } from "./navlink-item.interface";
-import type { IMenuItem } from "./menu-item.interface";
+import type { IMenuItem, IMenuItemItself } from "./menu-item.interface";
 
-export { ILinkItem, IMenuItem };
+export { ILinkItem, IMenuItem, IMenuItemItself };
