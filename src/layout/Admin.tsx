@@ -10,7 +10,7 @@ const ADMIN_ROUTER = () => {
   const token = sessionStorage.getItem("laFeliceAuthenticationToken");
 
   useEffect(() => {
-    mobileNav.current.classList.add("hidden");
+    mobileNav.current?.classList.add("hidden");
     if (!token) navigate("/admin/login");
   }, [window.location.pathname]);
 
@@ -21,7 +21,7 @@ const ADMIN_ROUTER = () => {
   return (
     <div className="relative ">
       {/* <!--header--> */}
-      <nav className="bg-white dark:bg-gray-900 py-3.5 px-6  w-full lg:shadow-none shadow-sm fixed ">
+      <nav className="z-[100] bg-white dark:bg-gray-900 py-3.5 px-6  w-full lg:shadow-none shadow-sm fixed ">
         <div className="flex items-center justify-between gap-1 sm:gap-6 lg:flex-row flex-col">
           <div className="flex justify-between items-center lg:w-auto w-full">
             <img src={LogoIcon} alt="la felice logo" className="w-32" />
