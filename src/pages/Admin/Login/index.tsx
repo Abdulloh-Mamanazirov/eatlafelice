@@ -25,12 +25,11 @@ const index = () => {
 
     axios
       .post("/auth/authenticate", data)
-      .then(() => {
-        toast.success("Log in successful");
-        navigate("/admin/home");
+      .then((res) => {
+        window.location.replace("/admin/home");
         sessionStorage.setItem(
           "laFeliceAuthenticationToken",
-          JSON.stringify(data)
+          res?.data?.access_token
         );
       })
       .catch(() => toast.error("Log in failed!"));
