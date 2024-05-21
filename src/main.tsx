@@ -10,9 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 // axios
 axios.defaults.baseURL = "http://37.77.104.188:8089/api";
-axios.defaults.headers.common["Authorization"] = sessionStorage.getItem(
-  "laFeliceAuthenticationToken"
-);
+axios.defaults.headers.common["Authorization"] =
+  "Bearer " + sessionStorage.getItem("laFeliceAuthenticationToken");
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
