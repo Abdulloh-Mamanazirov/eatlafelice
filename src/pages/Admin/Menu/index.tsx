@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import type { IMenuItem } from "../../../interfaces";
+import { BASE_URL } from "../../../constants";
+import type { IMenuItem, IMenuItemItself } from "../../../interfaces";
 
 const Empty = () => {
   return (
@@ -14,20 +15,20 @@ const Empty = () => {
 
 const MenuCard1 = ({ item }: IMenuItem): React.JSX.Element => {
   return (
-    <div className="profile-card rounded-xl shadow-md shadow-black/50 overflow-hidden z-[100] relative cursor-pointer snap-start shrink-0 bg-white flex flex-col items-center justify-center gap-3 transition-all duration-200 border border-gray-200 group">
+    <div className="profile-card rounded-xl shadow-md shadow-black/50 overflow-hidden relative cursor-pointer snap-start shrink-0 bg-white flex flex-col items-center justify-center gap-3 transition-all duration-200 border border-gray-200 group">
       <div className="avatar w-full pt-5 flex items-center justify-center flex-col gap-1">
         <div className="img_container w-full flex items-center justify-center relative z-40 after:absolute after:h-[6px] after:w-full after:bg-primary after:top-4 after:group-hover:size-[1%] after:delay-200 after:group-hover:delay-0 after:group-hover:transition-all after:group-hover:duration-200 after:transition-all after:duration-200 before:absolute before:h-[6px] before:w-full before:bg-secondary before:bottom-4 before:group-hover:size-[1%] before:delay-200 before:group-hover:delay-0 before:group-hover:transition-all before:group-hover:duration-200 before:transition-all before:duration-200">
           <img
             className="size-40 lg:size-36 aspect-square object-cover z-40 border-4 border-white rounded-full group-hover:border-8 group-hover:transition-all group-hover:duration-200 transition-all duration-200"
             id="avatar"
-            src={item.image}
+            src={BASE_URL + "/api/images/" + item.url}
           />
           <div className="absolute bg-gray-100 z-10 size-[60%] w-full group-hover:size-[1%] group-hover:transition-all group-hover:duration-200 transition-all duration-200 delay-300 group-hover:delay-0" />
         </div>
       </div>
       <div className="headings *:text-center">
         <p className="text-xl font-serif font-semibold text-[#434955]">
-          {item.title}
+          {item.name}
         </p>
         <p className="w-fit mx-auto px-5 bg-secondary rounded-md text-white">
           ${Number(item.price).toLocaleString("us-Us")}
@@ -46,9 +47,8 @@ const index = () => {
   const [imagePreview, setImagePreview] = useState<string>(null);
 
   const fetchData = async () => {
-    await axios.get("/menus").then((res) => setData(res.data?.[0]));
+    await axios.get("/menus").then((res) => setData(res.data));
   };
-  console.log(data);
 
   useEffect(() => {
     fetchData();
@@ -58,7 +58,7 @@ const index = () => {
     e.preventDefault();
     const { name, description, price, image } = e.target;
     const formData = new FormData();
-    formData.append("image", image.files[0]);
+    formData.append("file", image.files[0]);
 
     const data = {
       name: name.value,
@@ -69,8 +69,25 @@ const index = () => {
 
     await axios
       .post("/images/upload", formData)
-      .then((res) => {
-        console.log(res);
+      .then(async (res) => {
+        if (res?.status === 200) {
+          data.url = res.data?.split(
+            "Image uploaded successfully. Image URL: "
+          )[1];
+
+          await axios
+            .post("/menus", data)
+            .then((response) => {
+              if (response.status === 201) {
+                fetchData();
+                ref.current.close();
+                toast.success("Added successfully");
+              }
+            })
+            .catch(() => {
+              toast.error("Something went wrong!");
+            });
+        }
       })
       .catch((err) => toast.error("Something went wrong!"));
   }
@@ -85,8 +102,12 @@ const index = () => {
           <span className="fa-solid fa-plus" /> Add item
         </button>
       </div>
-      {data ? (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 p-3"></div>
+      {data?.length > 0 ? (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 p-3">
+          {data?.map((item: IMenuItemItself) => (
+            <MenuCard1 key={item.id} item={item} />
+          ))}
+        </div>
       ) : (
         <Empty />
       )}
@@ -143,11 +164,13 @@ const index = () => {
               id="image"
               type="file"
               required
-              accept=".jpg, .png, .jpeg, .gif"
+              accept=".jpg, .png, .jpeg, .webp, .svg, .gif"
               className="border border-gray-300 rounded-lg p-1 file:rounded-lg file:border-gray-200"
-              onChange={(e) =>
-                setImagePreview(URL.createObjectURL(e.target.files[0]))
-              }
+              onChange={(e) => {
+                if (e.target.files[0])
+                  setImagePreview(URL.createObjectURL(e.target.files[0]));
+                else setImagePreview("");
+              }}
             />
             {imagePreview && (
               <img
