@@ -237,7 +237,11 @@ const index = () => {
           </button>
         </div>
         <form
-          onSubmit={updateContactData ? handleEditContact : handleSubmitContact}
+          onSubmit={
+            updateContactData?.length > 0
+              ? handleEditContact
+              : handleSubmitContact
+          }
         >
           <div className="flex flex-col gap-2">
             <label htmlFor="phone">Phone:</label>
