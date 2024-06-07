@@ -1,13 +1,18 @@
-import {
-  About1,
-  About2,
-  About3,
-  PastaIcon,
-  PizzaIcon,
-  PizzaSliceIcon,
-} from "../../assets";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { About1, About2, About3, PastaIcon, PizzaIcon } from "../../assets";
 
 const index = () => {
+  const [data, setData] = useState(null);
+
+  const fetchData = async () => {
+    await axios.get("/abouts").then((res) => setData(res.data?.[0]));
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="relative">
       <section className="z-10 py-14 lg:py-24 relative about-bg md-lg:h-[80vh]">
@@ -42,16 +47,7 @@ const index = () => {
                   About Us{" "}
                 </h2>
                 <p className="font-normal text-xl leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">
-                  La Felice, established in 1995, has been bringing the
-                  authentic taste of Italy to our city for over two decades. Our
-                  founder’s passion for Italian cuisine led to the creation of a
-                  menu that celebrates Italy’s rich culinary traditions. From
-                  our signature pizzas to our comforting pastas, every dish is a
-                  testament to our love for Italian cooking. Our recipes, passed
-                  down through generations, are crafted with the freshest
-                  ingredients and a touch of tradition. As we continue our
-                  journey, we invite you to become a part of the La Felice story
-                  and experience the joy of Italian dining.
+                  {data?.about1}
                 </p>
               </div>
             </div>
@@ -73,20 +69,7 @@ const index = () => {
                   Discover La Felice: Your Italian Culinary Journey Begins Here
                 </h2>
                 <p className="font-normal leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">
-                  Welcome to La Felice, where we bring the heart of Italy to
-                  your city. Our restaurant is a culinary haven for lovers of
-                  authentic Italian cuisine. Each dish at La Felice is a
-                  celebration of Italy’s rich culinary tradition, crafted with
-                  passion and served with love. From the bustling streets of
-                  Rome to the serene landscapes of Tuscany, our menu is a
-                  gastronomic journey through Italy. At La Felice, we believe in
-                  the power of food to bring people together. Our ingredients
-                  are carefully selected for their freshness and quality,
-                  ensuring that each bite you take is a symphony of flavors. Our
-                  recipes have been passed down through generations, preserving
-                  the authenticity that is the hallmark of Italian cuisine. So,
-                  come join us at La Felice, and let us take you on a memorable
-                  culinary journey through Italy. Buon appetito!
+                  {data?.about2}
                 </p>
               </div>
             </div>
