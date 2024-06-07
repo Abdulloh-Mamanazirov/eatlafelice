@@ -5,6 +5,8 @@ export declare interface IMenuItem {
     name: string;
     description: string;
     price: number;
+    updateClick?: Function;
+    deleteClick?: Function;
   };
 }
 
