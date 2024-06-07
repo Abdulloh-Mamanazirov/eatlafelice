@@ -16,6 +16,24 @@ const Empty = () => {
 const MenuCard1 = ({ item }: IMenuItem): React.JSX.Element => {
   return (
     <div className="profile-card rounded-xl shadow-md shadow-black/50 overflow-hidden relative cursor-pointer snap-start shrink-0 bg-white flex flex-col items-center justify-center gap-3 transition-all duration-200 border border-gray-200 group">
+      <div className="z-50 absolute -top-10 right-5 transition-all group-hover:top-2">
+        <div className="flex items-center gap-3">
+          <button
+            title="Edit"
+            className="size-9 border rounded-full hover:bg-gray-50"
+            onClick={() => item.updateClick()}
+          >
+            <span className="fa-solid fa-edit text-blue-500 text-lg" />
+          </button>
+          <button
+            title="Delete"
+            className="size-9 border rounded-full hover:bg-gray-50"
+            onClick={() => item.deleteClick()}
+          >
+            <span className="fa-solid fa-trash text-red-500 text-lg" />
+          </button>
+        </div>
+      </div>
       <div className="avatar w-full pt-5 flex items-center justify-center flex-col gap-1">
         <div className="img_container w-full flex items-center justify-center relative z-40 after:absolute after:h-[6px] after:w-full after:bg-primary after:top-4 after:group-hover:size-[1%] after:delay-200 after:group-hover:delay-0 after:group-hover:transition-all after:group-hover:duration-200 after:transition-all after:duration-200 before:absolute before:h-[6px] before:w-full before:bg-secondary before:bottom-4 before:group-hover:size-[1%] before:delay-200 before:group-hover:delay-0 before:group-hover:transition-all before:group-hover:duration-200 before:transition-all before:duration-200">
           <img
@@ -42,6 +60,7 @@ const MenuCard1 = ({ item }: IMenuItem): React.JSX.Element => {
 
 const index = () => {
   const ref = useRef<HTMLDialogElement>();
+  const updateRef = useRef<HTMLDialogElement>();
   const [data, setData] = useState(null);
   const [updateData, setUpdateData] = useState(null);
   const [imagePreview, setImagePreview] = useState<string>(null);
@@ -80,6 +99,7 @@ const index = () => {
             .then((response) => {
               if (response.status === 201) {
                 fetchData();
+                e.target.reset();
                 ref.current.close();
                 toast.success("Added successfully");
               }
@@ -90,6 +110,79 @@ const index = () => {
         }
       })
       .catch((err) => toast.error("Something went wrong!"));
+  }
+
+  async function handleUpdateItem(e) {
+    e.preventDefault();
+    const { name, description, price, image } = e.target;
+    const formData = new FormData();
+
+    const data = {
+      name: name.value,
+      url: "string",
+      description: description.value,
+      price: +price.value,
+    };
+
+    if (image.files[0]) {
+      formData.append("file", image.files[0]);
+
+      await axios
+        .post("/images/upload", formData)
+        .then(async (res) => {
+          if (res?.status === 200) {
+            data.url = res.data?.split(
+              "Image uploaded successfully. Image URL: "
+            )[1];
+
+            await axios
+              .patch(`/menus/${updateData?.id}`, data)
+              .then((response) => {
+                if (response.status === 200) {
+                  fetchData();
+                  e.target.reset();
+                  updateRef.current.close();
+                  setUpdateData(null);
+                  toast.success("Updated successfully");
+                }
+              })
+              .catch(() => {
+                toast.error("Something went wrong!");
+              });
+          }
+        })
+        .catch((err) => toast.error("Something went wrong!"));
+    } else {
+      delete data.url;
+      await axios
+        .patch(`/menus/${updateData?.id}`, data)
+        .then((response) => {
+          if (response.status === 200) {
+            fetchData();
+            e.target.reset();
+            updateRef.current.close();
+            setUpdateData(null);
+            toast.success("Updated successfully");
+          }
+        })
+        .catch(() => {
+          toast.error("Something went wrong!");
+        });
+    }
+  }
+
+  async function handleDeleteItem(id: number) {
+    await axios
+      .delete(`/menus/${id}`)
+      .then((response) => {
+        if (response.status === 204) {
+          fetchData();
+          toast.info("Deleted successfully");
+        }
+      })
+      .catch(() => {
+        toast.error("Something went wrong!");
+      });
   }
 
   return (
@@ -105,7 +198,19 @@ const index = () => {
       {data?.length > 0 ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 p-3">
           {data?.map((item: IMenuItemItself) => (
-            <MenuCard1 key={item.id} item={item} />
+            <MenuCard1
+              key={item.id}
+              item={{
+                ...item,
+                updateClick: () => {
+                  updateRef.current.showModal();
+                  setUpdateData(item);
+                },
+                deleteClick: () => {
+                  handleDeleteItem(item.id);
+                },
+              }}
+            />
           ))}
         </div>
       ) : (
@@ -179,6 +284,89 @@ const index = () => {
                 className="max-w-full max-h-72 object-cover"
               />
             )}
+          </div>
+          <div className="mt-3">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-5 py-1 rounded-md border hover:bg-blue-600 active:border-gray-500"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </dialog>
+
+      {/* update menu item */}
+      <dialog
+        ref={updateRef}
+        className="w-11/12 md:w-6/12 bg-white border rounded-lg p-3 backdrop:bg-black/40 shadow-md shadow-black/70"
+      >
+        <div className="flex items-center justify-between pb-2 border-b border-black/30 mb-3">
+          <h3 className="text-lg font-medium">Update item</h3>
+          <button
+            className="size-9 border border-gray-300 rounded-full hover:bg-gray-100"
+            onClick={() => {
+              updateRef.current.close();
+              setUpdateData(null);
+            }}
+          >
+            <span className="fa-solid fa-close" />
+          </button>
+        </div>
+        <form onSubmit={handleUpdateItem}>
+          <div className="flex flex-col gap-1 mb-3">
+            <label htmlFor="name">Name:</label>
+            <input
+              name="name"
+              id="name"
+              type="text"
+              required
+              defaultValue={updateData?.name}
+              className="border border-gray-300 rounded-lg p-1"
+            />
+          </div>
+          <div className="flex flex-col gap-1 mb-3">
+            <label htmlFor="description">Description:</label>
+            <textarea
+              name="description"
+              id="description"
+              rows={3}
+              required
+              defaultValue={updateData?.description}
+              className="border border-gray-300 rounded-lg p-1"
+            ></textarea>
+          </div>
+          <div className="flex flex-col gap-1 mb-3">
+            <label htmlFor="price">Price:</label>
+            <input
+              name="price"
+              id="price"
+              type="number"
+              required
+              defaultValue={updateData?.price}
+              className="border border-gray-300 rounded-lg p-1"
+            />
+          </div>
+          <div className="flex flex-col gap-1 mb-3">
+            <label htmlFor="image">Image:</label>
+            <input
+              name="image"
+              id="image"
+              type="file"
+              accept=".jpg, .png, .jpeg, .webp, .svg, .gif"
+              className="border border-gray-300 rounded-lg p-1 file:rounded-lg file:border-gray-200"
+              onChange={(e) => {
+                if (e.target.files[0])
+                  setImagePreview(URL.createObjectURL(e.target.files[0]));
+                else setImagePreview("");
+              }}
+            />
+
+            <img
+              src={imagePreview ?? BASE_URL + "/api/images/" + updateData?.url}
+              alt="uploaded image"
+              className="max-w-full max-h-72 object-cover"
+            />
           </div>
           <div className="mt-3">
             <button
