@@ -37,12 +37,13 @@ const Navbar = () => {
       {/* Desktop Navigation */}
       <ul className="hidden md:flex">
         {CLIENT_PAGES.filter((item) => item.show).map((item) => (
-          <li
+          <Link
             key={item.id}
+            to={item.path}
             className="p-4 whitespace-nowrap hover:bg-[#00df9a] rounded-xl m-2 cursor-pointer duration-300 hover:text-black"
           >
             {item.title}
-          </li>
+          </Link>
         ))}
       </ul>
 
