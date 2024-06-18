@@ -1,10 +1,34 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { PizzaSliceIcon } from "../../assets";
 
 const index = () => {
-  async function handleSubmitForm(e) {
+  const [contactData, setContactData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const fetchContactData = async () => {
+    await axios.get("/contacts").then((res) => setContactData(res.data?.[0]));
+  };
+
+  useEffect(() => {
+    fetchContactData();
+  }, []);
+
+  async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     const { name, email, message } = e.target;
-    console.log(name.value);
+    const data = { email: email.value, message: message.value };
+
+    const response = await axios
+      .post("/feedbacks", data)
+      .finally(() => setLoading(false));
+
+    if (Number(response.status) >= 200 && Number(response.status) < 300) {
+      toast.success("Message sent!");
+      e.target.reset();
+    }
   }
 
   return (
@@ -13,7 +37,7 @@ const index = () => {
         <section className="w-full xl:py-24 lg:py-20 py-12 bg-slate-50">
           <div className="w-full max-w-7xl px-6 lg:px-8 mx-auto">
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-x-16 xl:gap-x-24 gap-y-14 max-w-lg md:max-w-3xl lg:max-w-full mx-auto">
-              <div className="relative">
+              <div>
                 <h1 className="text-gray-900 md:text-5xl text-4xl font-bold leading-tight mb-8 lg:text-left text-center">
                   Contact Us
                 </h1>
@@ -42,38 +66,31 @@ const index = () => {
                       Our dedicated support team is always ready to assist you.
                     </p>
                   </div> */}
-                  <a
-                    target={"_blank"}
-                    href="https://maps.app.goo.gl/ecN5Z5AXm6fKLQEJ8"
-                    className="rounded-2xl border border-gray-200 bg-white p-7 group transition-all duration-500 hover:bg-primary"
-                  >
+                  <div className="rounded-2xl border border-gray-200 bg-white p-7 group transition-all duration-500 hover:bg-primary">
                     <button className="w-14 h-14 bg-primary rounded-full flex items-center justify-center mb-5 transition-all duration-500 group-hover:bg-white cursor-pointer">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="fill-white transition-all duration-500 group-hover:fill-primary"
-                        width="35"
-                        height="35"
-                        // viewBox="0 0 30 30"
-                        viewBox="0 0 256 256"
-                      >
-                        <g transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
-                          <path d="M 45 90 c -1.415 0 -2.725 -0.748 -3.444 -1.966 l -4.385 -7.417 C 28.167 65.396 19.664 51.02 16.759 45.189 c -2.112 -4.331 -3.175 -8.955 -3.175 -13.773 C 13.584 14.093 27.677 0 45 0 c 17.323 0 31.416 14.093 31.416 31.416 c 0 4.815 -1.063 9.438 -3.157 13.741 c -0.025 0.052 -0.053 0.104 -0.08 0.155 c -2.961 5.909 -11.41 20.193 -20.353 35.309 l -4.382 7.413 C 47.725 89.252 46.415 90 45 90 z" />
-                          <path
-                            d="M 45 45.678 c -8.474 0 -15.369 -6.894 -15.369 -15.368 S 36.526 14.941 45 14.941 c 8.474 0 15.368 6.895 15.368 15.369 S 53.474 45.678 45 45.678 z"
-                            className="fill-primary transition group-hover:fill-white"
-                          />
-                        </g>
-                      </svg>
+                      <span className="fa-solid fa-phone duration-500 text-white group-hover:text-primary" />
                     </button>
-                    <h5 className="text-gray-900 text-xl font-semibold leading-8 mb-3 transition-all duration-500 group-hover:text-white">
-                      Map
+                    <h5 className="text-gray-900 text-xl font-semibold leading-8 transition-all duration-500 group-hover:text-white">
+                      Phone number
                     </h5>
-                    <p className="text-gray-500 text-sm font-normal leading-5 transition-all duration-500 group-hover:text-white">
-                      Tap on the card to see our location on map
-                    </p>
-                  </a>
+                    <a
+                      href={"tel:" + contactData?.phone}
+                      className="text-gray-500 text-sm font-normal leading-5 transition-all duration-500 group-hover:text-white"
+                    >
+                      {contactData?.phone}
+                    </a>
+                    <h5 className="mt-3 text-gray-900 text-xl font-semibold leading-8 transition-all duration-500 group-hover:text-white">
+                      Email
+                    </h5>
+                    <a
+                      href={"mailto:" + contactData?.email}
+                      className="text-gray-500 text-sm font-normal leading-5 transition-all duration-500 group-hover:text-white"
+                    >
+                      {contactData?.email}
+                    </a>
+                  </div>
                 </div>
-                <div className="absolute -bottom-20 md:bottom-0 swing-animation">
+                <div className="hidden md-lg:block absolute -bottom-0 swing-animation">
                   <img
                     src={PizzaSliceIcon}
                     alt="pizza slice"
@@ -82,12 +99,12 @@ const index = () => {
                 </div>
               </div>
               <form
-                onSubmit={handleSubmitForm}
+                onSubmit={handleSubmit}
                 className="h-fit bg-white border border-slate-200 rounded-2xl lg:p-12 p-8 w-full max-w-lg md:max-w-3xl lg:max-w-full mx-auto"
               >
-                <div className="relative mb-8">
+                {/* <div className="relative mb-8">
                   <label
-                    className="flex  items-center mb-2 text-gray-600 text-base leading-6 font-medium"
+                    className="flex items-center mb-2 text-gray-600 text-base leading-6 font-medium"
                     htmlFor="name"
                   >
                     Name{" "}
@@ -118,7 +135,7 @@ const index = () => {
                       placeholder="John Doe"
                     />
                   </div>
-                </div>
+                </div> */}
                 <div className="relative mb-8">
                   <label
                     className="flex  items-center mb-2 text-gray-600 text-base leading-6 font-medium"
@@ -168,23 +185,30 @@ const index = () => {
                     ></textarea>
                   </div>
                 </div>
-                <button className="w-full h-12 rounded-full bg-primary hover:bg-primary/80 transition-all duration-700 shadow-sm text-white text-base font-semibold leading-6 flex items-center justify-center">
+                <button
+                  disabled={loading}
+                  className="w-full h-12 rounded-full bg-primary hover:bg-primary/80 transition-all duration-700 shadow-sm text-white text-base font-semibold leading-6 flex items-center justify-center"
+                >
                   Send message{" "}
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M7.5 15L11.0858 11.4142C11.7525 10.7475 12.0858 10.4142 12.0858 10C12.0858 9.58579 11.7525 9.25245 11.0858 8.58579L7.5 5"
-                      stroke="white"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  {loading ? (
+                    <span className="fa-solid fa-spinner fa-spin-pulse ml-1" />
+                  ) : (
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7.5 15L11.0858 11.4142C11.7525 10.7475 12.0858 10.4142 12.0858 10C12.0858 9.58579 11.7525 9.25245 11.0858 8.58579L7.5 5"
+                        stroke="white"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
                 </button>
               </form>
             </div>
